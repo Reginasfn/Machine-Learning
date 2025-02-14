@@ -1,0 +1,21 @@
+import seaborn as sns
+import matplotlib.pyplot as plt
+from sklearn.cluster import KMeans
+from sklearn.datasets import make_blobs
+import pandas as pd
+
+# Создание синтетических данных
+X, y = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
+
+# Кластеризация с помощью KMeans
+kmeans = KMeans(n_clusters=4, init='k-means++', max_iter=300, n_init=10, random_state=0)
+y_kmeans = kmeans.fit_predict(X)
+
+# Создание DataFrame для использования с seaborn
+df = pd.DataFrame(X, columns=['Признак 1', 'Признак 2'])
+df['Кластер'] = y_kmeans
+
+# Визуализация с помощью seaborn
+sns.scatterplot(x='Признак 1', y='Признак 2', hue='Кластер', data=df, palette='viridis')
+plt.title("Результаты кластеризации KMeans (Seaborn)")
+plt.show()
