@@ -11,6 +11,27 @@ X, y = make_blobs(n_samples=300, centers=4, cluster_std=0.60, random_state=0)
 kmeans = KMeans(n_clusters=4, init='k-means++', max_iter=300, n_init=10, random_state=0)
 y_kmeans = kmeans.fit_predict(X)
 
+
+import matplotlib.pyplot as plt
+from scipy.cluster.hierarchy import dendrogram, linkage
+from sklearn.datasets import load_iris
+
+# Загрузка данных (например, iris)
+iris = load_iris()
+X = iris.data
+
+# Иерархическая кластеризация
+linked = linkage(X, 'ward')
+
+# Визуализация дендрограммы
+plt.figure(figsize=(10, 7))
+dendrogram(linked,
+            orientation='top',
+            distance_sort='descending',
+            show_leaf_counts=True)
+plt.title("Дендрограмма иерархической кластеризации")
+plt.show()
+
 # Создание DataFrame для использования с seaborn
 df = pd.DataFrame(X, columns=['Признак 1', 'Признак 2'])
 df['Кластер'] = y_kmeans
